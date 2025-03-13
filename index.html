@@ -1,20 +1,83 @@
 <!DOCTYPE html>
-<html>
-<h1>
-Hey there
-<h1>
+<!-- saved from url=(0043)file:///C:/Users/ruben/Downloads/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll Frames</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .frame {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            font-size: 2em;
+            color: white;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: transform 0.5s ease;
+        }
 
+        #frame1 { background-color: #ff6b6b; z-index: 5; }
+        #frame2 { background-color: #4ecdc4; z-index: 4; }
+        #frame3 { background-color: #45b7d1; z-index: 3; }
+        #frame4 { background-color: #96c93d; z-index: 2; }
+        #frame5 { background-color: #ffa502; z-index: 1; }
+    </style>
+</head>
 <body>
- <h2> about you
-  <p>
-    I am you
-  <p/>
+    <div class="frame" id="frame1" style="transform: translateY(0px);">Frame 1</div>
+    <div class="frame" id="frame2" style="transform: translateY(0px);">Frame 2</div>
+    <div class="frame" id="frame3" style="transform: translateY(0px);">Frame 3</div>
+    <div class="frame" id="frame4" style="transform: translateY(0px);">Frame 4</div>
+    <div class="frame" id="frame5" style="transform: translateY(0px);">Frame 5</div>
 
+    <script>
+        let currentFrame = 1;
+        const totalFrames = 5;
+        let canScroll = true;
 
+        // Handle scroll wheel events
+        window.addEventListener('wheel', (e) => {
+            if (!canScroll) return;
+            
+            canScroll = false;
+            setTimeout(() => { canScroll = true; }, 500); // Debounce scrolling
 
- <h2>
+            if (e.deltaY > 0 && currentFrame < totalFrames) {
+                // Scroll down
+                currentFrame++;
+            } else if (e.deltaY < 0 && currentFrame > 1) {
+                // Scroll up
+                currentFrame--;
+            }
 
+            updateFrames();
+        });
 
-   
-</body>
-</html>
+        function updateFrames() {
+            const frames = document.querySelectorAll('.frame');
+            frames.forEach((frame, index) => {
+                const frameNum = index + 1;
+                if (frameNum < currentFrame) {
+                    frame.style.transform = 'translateY(-100%)';
+                } else {
+                    frame.style.transform = 'translateY(0)';
+                }
+            });
+        }
+
+        // Initial setup
+        updateFrames();
+    </script>
+
+</body></html>
